@@ -19,4 +19,5 @@ export const SERVICE_NAMES = {
   VAULTWARDEN: 'nomad_vaultwarden',
   JELLYFIN: 'nomad_jellyfin',
   TRANSLATE: 'nomad_translate',
+  HIKMA_HEALTH: 'nomad_hikma_health',
 }

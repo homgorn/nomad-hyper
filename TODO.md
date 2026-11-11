@@ -2,7 +2,7 @@
 
 ## P0 (Критично)
 - [x] Интегрировать источники Survival LLM (WikiMed, MedlinePlus, WikEM, Ready.gov, CDC, military manuals, wikiHow, iFixit, Appropedia, Stack Exchange) в medical/RAG модули
-- [ ] Добавить Hikma Health как curated app (field clinics)
+- [x] Добавить Hikma Health как curated app (field clinics)
 - [ ] Добавить Unsloth Desktop как backend обучения + OpenAI-compat endpoint
 - [ ] Добавить "survival mode" (автопереключение на минимальную модель + отключение несущественного при низком заряде)
 
@@ -11,7 +11,7 @@
 - [ ] Добавить NoteDiscovery с MCP для AI-редактирования заметок
 - [ ] Добавить Needle 2 для edge-устройств (14MB, 28MB RAM)
 - [ ] Добавить AFFiNE для визуального планирования
-- [ ] Добавить i18n (react-i18next + LLM перевод + валидация)
+- [x] Добавить i18n (react-i18next + LLM перевод + валидация)
 - [ ] Добавить multi-location support (multi-select локаций)
 
 ## P2 (Средний приоритет)

@@ -72,6 +72,8 @@ volumes:
   healthchecks_data:
   # 3D
   octoprint_data:
+  # Health
+  hikma_data:
 
 x-restart: &restart
   restart: unless-stopped
@@ -848,3 +850,26 @@ services:
       - ./data/redis:/data
     networks:
       - nomad
+
+# =====================================================
+# HEALTH
+# =====================================================
+
+  nomad-hikma-health:
+    image: hikmahealth/hikma:latest
+    container_name: nomad-hikma-health
+    <<: [*restart, *logging]
+    ports:
+      - "3456:3000"
+    environment:
+      - DATABASE_URL=postgresql://hikma:${HIKMA_DB_PASS}@nomad-postgres:5432/hikma
+      - REDIS_URL=redis://nomad-redis:6379
+      - NODE_ENV=production
+    depends_on:
+      - nomad-postgres
+      - nomad-redis
+    volumes:
+      - hikma_data:/app/data
+    networks:
+      - nomad
+    profiles: [health]

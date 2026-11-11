@@ -364,3 +364,39 @@ These 50 languages are available. Chinese is not available yet.
 **Your data:** language models live in `storage/translate/models`. Nothing you read is stored or sent anywhere.
 
 **Works offline:** yes, once the models have downloaded.
+
+---
+
+## Hikma Health
+
+Offline-first Electronic Health Record (EHR) for field clinics and low-resource settings.
+
+**Repository:** https://github.com/hikmahealth/hikma
+**License:** MIT
+**Docker Hub:** hikmahealth/hikma
+
+### Features
+- Patient registration and clinical records
+- Offline-first with Local Sync Hub for intermittent connectivity
+- Lightweight: runs on 6-8 GB RAM (mobile) vs 16 GB+ for Bahmni
+- Deployed in 18 countries, 500k+ patients
+- Open source, MIT license
+
+### Requirements
+- PostgreSQL (shared via `nomad-postgres`)
+- Redis (shared via `nomad-redis`)
+- Port: 3000 (exposed as 3456)
+
+### Quick Start
+```bash
+docker compose --profile health up -d nomad-hikma-health
+```
+
+### Access
+Open http://localhost:3456 after startup.
+
+### Notes
+- Part of the `health` profile
+- Uses shared infrastructure (PostgreSQL, Redis)
+- Data persisted in `hikma_data` volume
+- Documentation: https://docs.hikmahealth.org
