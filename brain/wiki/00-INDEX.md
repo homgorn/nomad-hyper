@@ -11,4 +11,5 @@
 - [lan-distribution.md](lan-distribution.md) — LAN distribution (cable/WiFi)
 - [survival-roadmap.md](survival-roadmap.md) — Survival roadmap
 - [upstream-gaps.md](upstream-gaps.md) — Upstream gaps
+- [improvements-2026.md](improvements-2026.md) — Improvements research Nov 2026
 - [model-updates.md](model-updates.md) — Model updates (Nov 2026)

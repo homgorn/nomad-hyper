@@ -11,6 +11,18 @@ updated: 2026-11-11
 
 # Survival Roadmap — What Else to Add
 
+## Новые находки (Nov 2026)
+- [ ] MeshCore support (alongside Meshtastic) — better for regional repeater networks
+- [ ] Hikma Health — offline-first EHR for field clinics (lighter than Bahmni)
+- [ ] Unsloth Desktop — local training + OpenAI-compat inference
+- [ ] NoteDiscovery — self-hosted KB with MCP for AI note editing
+- [ ] AFFiNE — docs + whiteboard for visual planning
+- [ ] Needle 2 — 45M param model for edge tool calling (14MB, 28MB RAM)
+- [ ] Survival LLM sources — integrate WikiMed, MedlinePlus, WikEM, Ready.gov, CDC, military manuals
+- [ ] "Survival mode" — auto-switch to smallest model + disable non-essential containers on low battery
+- [ ] DeepSeek V4 Flash distilled into Qwen3.5-9B
+- [ ] NVIDIA Nemotron 3.5 (Super/Bolt/Lightning) for edge
+
 ## Communications
 - [x] Meshtastic LoRa mesh (433 MHz)
 - [x] SDR (RTL-SDR, OpenWebRX, ADS-B, NOAA)
