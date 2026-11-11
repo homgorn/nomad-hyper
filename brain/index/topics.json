@@ -10,6 +10,9 @@
     {"id": "lan-distribution", "file": "wiki/lan-distribution.md", "summary": "LAN distribution over cable/WiFi", "tags": ["lan", "distributed"], "updated": "2026-11-11"},
     {"id": "survival-roadmap", "file": "wiki/survival-roadmap.md", "summary": "Survival roadmap features", "tags": ["survival", "roadmap"], "updated": "2026-11-11"},
     {"id": "upstream-gaps", "file": "wiki/upstream-gaps.md", "summary": "Upstream NOMAD gaps", "tags": ["upstream", "gaps"], "updated": "2026-11-11"},
+    {"id": "locations", "file": "wiki/locations.md", "summary": "Multi-location support", "tags": ["locations"], "updated": "2026-11-11"},
+    {"id": "i18n", "file": "wiki/i18n.md", "summary": "Internationalization", "tags": ["i18n", "localization"], "updated": "2026-11-11"},
+    {"id": "tools-libs", "file": "wiki/tools-libs.md", "summary": "Tools and libraries", "tags": ["tools", "libs"], "updated": "2026-11-11"},
     {"id": "improvements-2026", "file": "wiki/improvements-2026.md", "summary": "Improvements research Nov 2026", "tags": ["research", "improvements"], "updated": "2026-11-11"},
     {"id": "model-updates", "file": "wiki/model-updates.md", "summary": "Model updates Nov 2026", "tags": ["models", "updates"], "updated": "2026-11-11"}
   ]
