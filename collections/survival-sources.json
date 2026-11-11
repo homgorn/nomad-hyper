@@ -1,0 +1,20 @@
+{
+  "name": "Survival Sources (Survival LLM)",
+  "description": "Offline emergency knowledge sources from Survival LLM (brangus.io). Public domain and open-licensed.",
+  "license": "Mixed (PD, CC BY-SA, CC BY-NC-SA)",
+  "sources": [
+    {"name": "WikiMed", "url": "https://en.wikipedia.org/wiki/Wikipedia:WikiMed", "license": "CC BY-SA 4.0", "size_mb": 5000, "format": "ZIM"},
+    {"name": "MedlinePlus", "url": "https://medlineplus.gov", "license": "Public Domain (NLM)", "size_mb": 2000, "format": "ZIM"},
+    {"name": "WikEM", "url": "https://wikem.org", "license": "CC BY-SA 4.0", "size_mb": 500, "format": "ZIM"},
+    {"name": "Ready.gov (FEMA)", "url": "https://www.ready.gov", "license": "Public Domain", "size_mb": 50, "format": "HTML/PDF"},
+    {"name": "CDC Travelers Health", "url": "https://wwwnc.cdc.gov/travel", "license": "Public Domain", "size_mb": 100, "format": "HTML/PDF"},
+    {"name": "US Military Manuals (FM 21-76, FM 4-25.11)", "url": "https://archive.org", "license": "Public Domain", "size_mb": 200, "format": "PDF"},
+    {"name": "USDA Complete Guide to Home Canning", "url": "https://www.nal.usda.gov", "license": "Public Domain", "size_mb": 40, "format": "PDF"},
+    {"name": "iFixit Repair Guides", "url": "https://www.ifixit.com", "license": "CC BY-NC-SA 3.0", "size_mb": 2500, "format": "ZIM/HTML"},
+    {"name": "wikiHow", "url": "https://www.wikihow.com", "license": "CC BY-NC-SA 3.0", "size_mb": 3000, "format": "ZIM"},
+    {"name": "Appropedia", "url": "https://www.appropedia.org", "license": "CC BY-SA 4.0", "size_mb": 500, "format": "ZIM"},
+    {"name": "Stack Exchange (10 sites)", "url": "https://stackexchange.com", "license": "CC BY-SA 2.5/3.0/4.0", "size_mb": 5000, "format": "ZIM"},
+    {"name": "UK Medicines A-Z", "url": "https://www.nhs.uk/medicines", "license": "OGL v3.0", "size_mb": 200, "format": "HTML"}
+  ],
+  "notes": "NC (Non-Commercial) sources (wikiHow, iFixit, IFRC, WHO) must be excluded for commercial builds. SA sources require ShareAlike. PD sources have no restrictions."
+}
