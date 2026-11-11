@@ -1,5 +1,20 @@
 # Change: hyper-v2-baseline
 
+## Why
+NOMAD Hyper extends Project NOMAD with AI agents, IoT, LoRa, SDR, solar power, voice, and LoRA training.
+This change establishes the baseline for all future improvements.
+
+## What Changes
+- Import upstream Project NOMAD v1.35.1
+- Add Hyper Specification v2.0 and deep research modules
+- Add LLM wiki with indexes and semantic graph
+- Add OpenSpec SDD structure
+- Add 10 BMAD skills under .claude/skills
+- Add agents/, docker-compose.v2.yml, install_nomad_v2.sh
+- Add CI/CD (GitHub Actions)
+- Add Unsloth LoRA training docs and roadmap
+- Update README with Hyper overview
+
 ## Summary
 Import upstream Project NOMAD v1.35.1, add Hyper specification v2.0, new modules from deep research,
 BMAD skills, agent layer, docker-compose v2, LLM wiki, and Unsloth LoRA training roadmap.
