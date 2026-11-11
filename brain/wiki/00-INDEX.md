@@ -8,4 +8,7 @@
 - [modules.md](modules.md) — New modules from deep research
 - [unsloth-lora.md](unsloth-lora.md) — LoRA training with Unsloth
 - [openspec.md](openspec.md) — OpenSpec SDD workflow
+- [lan-distribution.md](lan-distribution.md) — LAN distribution (cable/WiFi)
+- [survival-roadmap.md](survival-roadmap.md) — Survival roadmap
+- [upstream-gaps.md](upstream-gaps.md) — Upstream gaps
 - [model-updates.md](model-updates.md) — Model updates (Nov 2026)

@@ -5,3 +5,6 @@ NOMAD Hyper | uses | Claude Agent SDK | docs/hyper/hyperspec.md
 NOMAD Hyper | uses | Unsloth | docs/hyper/hyperspec.md
 NOMAD Hyper | uses | Meshtastic | docs/hyper/hyperspec.md
 NOMAD Hyper | uses | OpenSpec | openspec/config.yaml
+NOMAD Hyper | supports | LAN Distribution | brain/wiki/lan-distribution.md
+NOMAD Hyper | supports | Survival Roadmap | brain/wiki/survival-roadmap.md
+NOMAD Hyper | extends | Project NOMAD | brain/wiki/upstream-gaps.md
