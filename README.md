@@ -14,7 +14,23 @@
 
 Project NOMAD is a self-contained, offline-first knowledge and education server packed with critical tools, knowledge, and AI to keep you informed and empowered — anytime, anywhere.
 
-## Installation & Quickstart
+## NOMAD Hyper Extensions
+
+This fork (**NOMAD Hyper**) extends Project NOMAD with:
+
+- **AI Agents** — Claude Agent SDK orchestrator + 10 sub-agents + 10 BMAD skills
+- **Qwen3.5** models + Unsloth LoRA training (local 4GB GPU + cloud parallel)
+- **IoT & Power** — ESP32 sensors, MQTT, Home Assistant, solar/LiFePO4 monitoring
+- **Communications** — LoRa/Meshtastic, SDR (RTL-SDR), satellite (Starlink, Garmin)
+- **Voice** — Whisper (STT) + Piper (TTS) offline voice stack
+- **New modules** — Vaultwarden, Audiobookshelf, Calibre-Web, Docmost, Syncthing, Restic, ArchiveBox, Homepage, and more
+- **Docker v2** — full extended compose stack
+- **SDD** — OpenSpec spec-driven development workflow
+- **LLM Wiki** — `brain/` knowledge base with indexes and semantic graph
+
+See [docs/hyper/](docs/hyper/) for the Hyper Specification v2.0 and deep research.
+
+---
 Project NOMAD can be installed on any Debian-based operating system (we recommend Ubuntu 26.04 LTS; 24.04 LTS and Debian 12 are also supported). Installation is completely terminal-based, and all tools and resources are designed to be accessed through the browser, so there's no need for a desktop environment if you'd rather setup NOMAD as a "server" and access it through other clients.
 
 **Before you start:** NOMAD itself needs about **5 GB of disk and under 1 GB of RAM**. The offline content you add afterwards is what actually fills a drive, and the AI Assistant is what drives the memory requirement up. See [Device Requirements](#device-requirements) for both, and the [FAQ](https://www.projectnomad.us/docs/faq) for individual content sizes.

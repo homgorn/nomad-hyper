@@ -1,0 +1,11 @@
+{
+  "topics": [
+    {"id": "overview", "file": "wiki/overview.md", "summary": "NOMAD Hyper overview", "tags": ["overview"], "updated": "2026-11-11"},
+    {"id": "ai-stack", "file": "wiki/ai-stack.md", "summary": "AI stack Qwen3.5 + Claude Agent SDK + Unsloth", "tags": ["ai"], "updated": "2026-11-11"},
+    {"id": "iot-power", "file": "wiki/iot-power.md", "summary": "IoT sensors and solar power", "tags": ["iot", "power"], "updated": "2026-11-11"},
+    {"id": "comms", "file": "wiki/comms.md", "summary": "Communications LoRa/SDR/satellite", "tags": ["comms"], "updated": "2026-11-11"},
+    {"id": "modules", "file": "wiki/modules.md", "summary": "New modules from deep research", "tags": ["modules"], "updated": "2026-11-11"},
+    {"id": "unsloth-lora", "file": "wiki/unsloth-lora.md", "summary": "Unsloth LoRA training", "tags": ["unsloth", "lora"], "updated": "2026-11-11"},
+    {"id": "openspec", "file": "wiki/openspec.md", "summary": "OpenSpec SDD workflow", "tags": ["openspec"], "updated": "2026-11-11"}
+  ]
+}

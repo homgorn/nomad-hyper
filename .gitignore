@@ -66,6 +66,10 @@ server/temp
 .claude
 .codegraph
 .mcp.json
+# Keep project skills
+!.claude/
+!.claude/skills/
+!.claude/skills/**
 
 # Frontend assets compiled code
 admin/public/assets

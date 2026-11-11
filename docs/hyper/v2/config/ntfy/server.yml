@@ -1,0 +1,30 @@
+# NOMAD ntfy Server Config
+# docs: https://docs.ntfy.sh/config/
+
+base-url: "http://localhost:8088"
+
+# Хранилище
+cache-file: /var/lib/ntfy/cache.db
+cache-duration: "24h"
+cache-batch-size: 0
+cache-batch-timeout: "0ms"
+
+# Лимиты (щедрые для локального использования)
+visitor-subscription-limit: 50
+visitor-request-limit-burst: 1000
+visitor-request-limit-replenish: "1s"
+visitor-attachment-total-size-limit: "5GB"
+visitor-attachment-daily-bandwidth-limit: "50GB"
+attachment-cache-dir: /var/lib/ntfy/attachments
+
+# Без аутентификации в LAN
+auth-file: ""
+
+# Логирование
+log-level: info
+log-format: text
+
+# Web UI включён
+enable-signup: false
+enable-login: false
+enable-reservations: false

@@ -1,0 +1,133 @@
+# NOMAD Homepage Dashboard Config
+# /opt/project-nomad/config/homepage/services.yaml
+
+- AI:
+    - Ollama:
+        href: http://{{NOMAD_HOST}}:11434
+        description: "LLM инференс — Qwen3.5"
+        icon: ollama.png
+        widget:
+          type: customapi
+          url: http://nomad-ollama:11434/api/tags
+          method: GET
+          mappings:
+            - field: models
+              label: Моделей установлено
+              format: size
+
+    - OpenWebUI:
+        href: http://{{NOMAD_HOST}}:3000
+        description: "Чат интерфейс для LLM"
+        icon: open-webui.png
+
+- Знания:
+    - Kiwix:
+        href: http://{{NOMAD_HOST}}:8888
+        description: "Офлайн Wikipedia и ZIM"
+        icon: kiwix.png
+
+    - ArchiveBox:
+        href: http://{{NOMAD_HOST}}:8090
+        description: "Веб-архив"
+        icon: archivebox.png
+
+    - Calibre-Web:
+        href: http://{{NOMAD_HOST}}:8083
+        description: "Библиотека электронных книг"
+        icon: calibre-web.png
+
+    - Audiobookshelf:
+        href: http://{{NOMAD_HOST}}:13378
+        description: "Аудиокниги и подкасты"
+        icon: audiobookshelf.png
+
+- Документация:
+    - Docmost:
+        href: http://{{NOMAD_HOST}}:3100
+        description: "Командная вики"
+        icon: docmost.png
+
+    - BookStack:
+        href: http://{{NOMAD_HOST}}:6875
+        description: "База знаний"
+        icon: bookstack.png
+
+- IoT / Мониторинг:
+    - Home Assistant:
+        href: http://{{NOMAD_HOST}}:8123
+        description: "Умный дом и датчики"
+        icon: home-assistant.png
+        widget:
+          type: homeassistant
+          url: http://nomad-homeassistant:8123
+          key: "{{HA_TOKEN}}"
+
+    - Grafana:
+        href: http://{{NOMAD_HOST}}:3001
+        description: "Дашборды и метрики"
+        icon: grafana.png
+        widget:
+          type: grafana
+          url: http://nomad-grafana:3000
+          username: admin
+          password: "{{GRAFANA_PASSWORD}}"
+
+    - Node-RED:
+        href: http://{{NOMAD_HOST}}:1880
+        description: "Автоматизации"
+        icon: node-red.png
+
+- Коммуникации:
+    - Matrix:
+        href: http://{{NOMAD_HOST}}:8448
+        description: "Зашифрованный чат"
+        icon: matrix.png
+
+    - ntfy:
+        href: http://{{NOMAD_HOST}}:8088
+        description: "Push уведомления"
+        icon: ntfy.png
+
+- Задачи:
+    - Vikunja:
+        href: http://{{NOMAD_HOST}}:3456
+        description: "Task manager"
+        icon: vikunja.png
+
+    - Memos:
+        href: http://{{NOMAD_HOST}}:5230
+        description: "Быстрые заметки"
+        icon: memos.png
+
+- Безопасность:
+    - Vaultwarden:
+        href: http://{{NOMAD_HOST}}:8480
+        description: "Менеджер паролей"
+        icon: vaultwarden.png
+
+    - Nginx Proxy Manager:
+        href: http://{{NOMAD_HOST}}:81
+        description: "Обратный прокси"
+        icon: nginx-proxy-manager.png
+
+- Карты:
+    - OpenStreetMap:
+        href: http://{{NOMAD_HOST}}:8081
+        description: "Офлайн карты"
+        icon: openstreetmap.png
+
+- Управление:
+    - Dockhand:
+        href: http://{{NOMAD_HOST}}:9876
+        description: "Docker менеджмент"
+        icon: dockhand.png
+
+    - Uptime Kuma:
+        href: http://{{NOMAD_HOST}}:3002
+        description: "Мониторинг сервисов"
+        icon: uptime-kuma.png
+
+    - Healthchecks:
+        href: http://{{NOMAD_HOST}}:8200
+        description: "Мониторинг cron задач"
+        icon: healthchecks.png

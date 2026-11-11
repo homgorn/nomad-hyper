@@ -1,0 +1,28 @@
+[Unit]
+Description=NOMAD Meshtastic LoRa Listener (SIGNAL)
+Documentation=https://github.com/Crosstalk-Solutions/project-nomad
+After=docker.service network.target
+Requires=docker.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/project-nomad
+ExecStart=/usr/bin/python3 /opt/project-nomad/scripts/meshtastic_listener.py
+Restart=always
+RestartSec=10
+
+EnvironmentFile=/opt/project-nomad/.env
+Environment=PYTHONUNBUFFERED=1
+Environment=MESHTASTIC_PORT=/dev/ttyUSB0
+Environment=NTFY_URL=http://localhost:8088
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=nomad-meshtastic
+
+# Группа dialout для доступа к serial порту
+SupplementaryGroups=dialout
+
+[Install]
+WantedBy=multi-user.target

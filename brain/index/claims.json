@@ -1,0 +1,7 @@
+{
+  "claims": [
+    {"id": "c1", "text": "Project NOMAD is Apache-2.0 licensed", "type": "reported", "source": "https://github.com/Crosstalk-Solutions/project-nomad", "date": "2026-11-11"},
+    {"id": "c2", "text": "Qwen3.5 supports 0.8b to 397b models", "type": "reported", "source": "docs/hyper/hyperspec.md", "date": "2026-11-11"},
+    {"id": "c3", "text": "Unsloth supports 4GB VRAM QLoRA training", "type": "reported", "source": "https://unsloth.ai/docs", "date": "2026-11-11"}
+  ]
+}

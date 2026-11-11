@@ -1,0 +1,38 @@
+# NOMAD Agent Orchestrator — Python dependencies
+# pip install -r requirements.txt
+
+# Web framework
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+
+# HTTP client (async)
+httpx>=0.27.0
+
+# Claude Agent SDK (опционально — используется если ANTHROPIC_API_KEY задан)
+claude-agent-sdk>=0.1.48
+
+# Meshtastic (LoRa mesh)
+meshtastic>=2.3.14
+pypubsub>=4.0.3
+
+# MQTT
+paho-mqtt>=2.0.0
+
+# IoT датчики
+smbus2>=0.4.3       # I2C для INA226
+RPi.GPIO>=0.7.1     # GPIO для RPi (только на RPi)
+
+# Watchdog (файловый мониторинг для RAG)
+watchdog>=4.0.0
+
+# Утилиты
+pydantic>=2.6.0
+python-dotenv>=1.0.0
+requests>=2.31.0
+aiofiles>=23.2.0
+
+# SDR (опционально)
+# pyrtlsdr>=0.2.91  # раскомментировать если есть RTL-SDR
+
+# VE.Direct (Victron MPPT, опционально)
+# vedirect>=0.1.0

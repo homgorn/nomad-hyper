@@ -1,0 +1,7 @@
+Project NOMAD | license | Apache-2.0 | docs/hyper/hyperspec.md
+NOMAD Hyper | extends | Project NOMAD | docs/hyper/hyperspec.md
+NOMAD Hyper | uses | Qwen3.5 | docs/hyper/hyperspec.md
+NOMAD Hyper | uses | Claude Agent SDK | docs/hyper/hyperspec.md
+NOMAD Hyper | uses | Unsloth | docs/hyper/hyperspec.md
+NOMAD Hyper | uses | Meshtastic | docs/hyper/hyperspec.md
+NOMAD Hyper | uses | OpenSpec | openspec/config.yaml

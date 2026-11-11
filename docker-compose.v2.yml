@@ -1,0 +1,850 @@
+# ============================================================
+# PROJECT N.O.M.A.D. v2.0 — FULL DOCKER COMPOSE
+# Март 2026 | github.com/Crosstalk-Solutions/project-nomad
+# ============================================================
+# Профили (запускать только нужные):
+#   default  — базовый стек (всегда)
+#   media    — Jellyfin, Audiobookshelf, Calibre-Web
+#   office   — Nextcloud + ONLYOFFICE (требует 4GB RAM)
+#   sdr      — OpenWebRX (требует RTL-SDR)
+#   weather  — WeeWX (требует метеостанцию)
+#   tactical — FreeTAK Server (SAR операции)
+#   3dprint  — OctoPrint (требует 3D-принтер)
+#
+# Запуск: docker compose up -d
+# Запуск с профилями: docker compose --profile media --profile sdr up -d
+# ============================================================
+
+name: nomad
+
+networks:
+  nomad:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.200.0/24
+
+volumes:
+  # Core
+  mysql_data:
+  qdrant_data:
+  ollama_data:
+  # Knowledge
+  kiwix_data:
+  osm_data:
+  kolibri_data:
+  # Comms
+  synapse_data:
+  ntfy_data:
+  vikunja_data:
+  # Media
+  jellyfin_config:
+  jellyfin_cache:
+  audiobookshelf_config:
+  calibre_config:
+  # Wiki / Docs
+  docmost_data:
+  bookstack_data:
+  # Security
+  vaultwarden_data:
+  nginx_pm_data:
+  nginx_pm_letsencrypt:
+  # Monitoring
+  influxdb_data:
+  grafana_data:
+  prometheus_data:
+  uptime_kuma_data:
+  # Backup / Archive
+  archivebox_data:
+  # IoT
+  hass_data:
+  mosquitto_data:
+  nodered_data:
+  # Files
+  syncthing_config:
+  nextcloud_data:
+  # Tasks
+  actual_data:
+  memos_data:
+  # Management
+  dockhand_data:
+  portainer_data:
+  healthchecks_data:
+  # 3D
+  octoprint_data:
+
+x-restart: &restart
+  restart: unless-stopped
+
+x-logging: &logging
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+      max-file: "3"
+
+services:
+
+# =====================================================
+# ██████  AI CORE
+# =====================================================
+
+  nomad-ollama:
+    image: ollama/ollama:latest
+    container_name: nomad-ollama
+    <<: [*restart, *logging]
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_MAX_LOADED_MODELS=2
+      - OLLAMA_NUM_PARALLEL=2
+      - OLLAMA_KEEP_ALIVE=5m
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    networks:
+      - nomad
+    # CPU-only (без GPU): убрать секцию deploy выше
+
+  nomad-openwebui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: nomad-openwebui
+    <<: [*restart, *logging]
+    ports:
+      - "3000:8080"
+    volumes:
+      - ./data/openwebui:/app/backend/data
+    environment:
+      - OLLAMA_BASE_URL=http://nomad-ollama:11434
+      - WEBUI_AUTH=false          # отключить auth в LAN (включить для публичного доступа)
+      - ENABLE_SIGNUP=true
+      - AUDIO_STT_ENGINE=openai
+      - AUDIO_STT_OPENAI_API_BASE_URL=http://nomad-whisper:8000/v1
+      - AUDIO_TTS_ENGINE=openai
+      - AUDIO_TTS_OPENAI_API_BASE_URL=http://nomad-piper:5000/v1
+    depends_on:
+      - nomad-ollama
+    networks:
+      - nomad
+
+  nomad-whisper:
+    image: rhasspy/wyoming-whisper:latest
+    container_name: nomad-whisper
+    <<: [*restart, *logging]
+    ports:
+      - "10300:10300"
+    volumes:
+      - ./data/whisper:/data
+    command: ["--model", "small-int8", "--language", "ru", "--uri", "tcp://0.0.0.0:10300"]
+    networks:
+      - nomad
+
+  nomad-piper:
+    image: rhasspy/wyoming-piper:latest
+    container_name: nomad-piper
+    <<: [*restart, *logging]
+    ports:
+      - "10200:10200"
+    volumes:
+      - ./data/piper:/data
+    command: ["--voice", "ru_RU-irina-medium", "--uri", "tcp://0.0.0.0:10200"]
+    networks:
+      - nomad
+
+# =====================================================
+# ██████  CORE NOMAD APP
+# =====================================================
+
+  nomad-app:
+    image: ghcr.io/crosstalk-solutions/project-nomad:latest
+    container_name: nomad-app
+    <<: [*restart, *logging]
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=nomad-mysql
+      - DB_PORT=3306
+      - DB_NAME=nomad
+      - DB_USER=nomad
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - QDRANT_HOST=http://nomad-qdrant:6333
+      - OLLAMA_HOST=http://nomad-ollama:11434
+      - KIWIX_HOST=http://nomad-kiwix:8080
+    depends_on:
+      - nomad-mysql
+      - nomad-qdrant
+    networks:
+      - nomad
+
+  nomad-mysql:
+    image: mysql:8.0
+    container_name: nomad-mysql
+    <<: [*restart, *logging]
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: nomad
+      MYSQL_USER: nomad
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./config/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - nomad
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  nomad-qdrant:
+    image: qdrant/qdrant:latest
+    container_name: nomad-qdrant
+    <<: [*restart, *logging]
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks:
+      - nomad
+
+# =====================================================
+# ██████  KNOWLEDGE BASE
+# =====================================================
+
+  nomad-kiwix:
+    image: ghcr.io/kiwix/kiwix-serve:latest
+    container_name: nomad-kiwix
+    <<: [*restart, *logging]
+    ports:
+      - "8888:8080"
+    volumes:
+      - kiwix_data:/data
+      - ./data/zim:/data/zim:ro
+    command: /data/zim/*.zim
+    networks:
+      - nomad
+
+  nomad-osm:
+    image: overv/openstreetmap-tile-server:latest
+    container_name: nomad-osm
+    <<: [*restart, *logging]
+    ports:
+      - "8081:80"
+    volumes:
+      - osm_data:/data/database
+      - ./data/osm/region.osm.pbf:/data/region.osm.pbf:ro
+    shm_size: 1g
+    networks:
+      - nomad
+
+  nomad-kolibri:
+    image: learningequality/kolibri:latest
+    container_name: nomad-kolibri
+    <<: [*restart, *logging]
+    ports:
+      - "8082:8080"
+    volumes:
+      - kolibri_data:/root/.kolibri
+    networks:
+      - nomad
+
+  nomad-archivebox:
+    image: archivebox/archivebox:latest
+    container_name: nomad-archivebox
+    <<: [*restart, *logging]
+    ports:
+      - "8090:8000"
+    volumes:
+      - archivebox_data:/data
+    command: server --quick-init 0.0.0.0:8000
+    environment:
+      - ALLOWED_HOSTS=*
+      - MEDIA_MAX_SIZE=750m
+    networks:
+      - nomad
+
+# =====================================================
+# ██████  WIKI / DOCS
+# =====================================================
+
+  nomad-docmost:
+    image: docmost/docmost:latest
+    container_name: nomad-docmost
+    <<: [*restart, *logging]
+    ports:
+      - "3100:3000"
+    environment:
+      - APP_URL=http://${NOMAD_HOST:-localhost}:3100
+      - APP_SECRET=${DOCMOST_SECRET}
+      - DATABASE_URL=postgresql://docmost:${DOCMOST_DB_PASS}@nomad-postgres:5432/docmost
+      - REDIS_URL=redis://nomad-redis:6379
+    depends_on:
+      - nomad-postgres
+      - nomad-redis
+    volumes:
+      - docmost_data:/app/data/storage
+    networks:
+      - nomad
+
+  nomad-bookstack:
+    image: lscr.io/linuxserver/bookstack:latest
+    container_name: nomad-bookstack
+    <<: [*restart, *logging]
+    ports:
+      - "6875:80"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - APP_URL=http://${NOMAD_HOST:-localhost}:6875
+      - DB_HOST=nomad-mysql
+      - DB_USER=bookstack
+      - DB_PASS=${BOOKSTACK_DB_PASS}
+      - DB_DATABASE=bookstack
+    volumes:
+      - bookstack_data:/config
+    depends_on:
+      - nomad-mysql
+    networks:
+      - nomad
+
+# =====================================================
+# ██████  COMMUNICATIONS
+# =====================================================
+
+  nomad-matrix:
+    image: matrixdotorg/synapse:latest
+    container_name: nomad-matrix
+    <<: [*restart, *logging]
+    ports:
+      - "8448:8448"
+    volumes:
+      - synapse_data:/data
+      - ./config/synapse/homeserver.yaml:/data/homeserver.yaml:ro
+    networks:
+      - nomad
+
+  nomad-ntfy:
+    image: binwiederhier/ntfy:latest
+    container_name: nomad-ntfy
+    <<: [*restart, *logging]
+    ports:
+      - "8088:80"
+    volumes:
+      - ntfy_data:/var/lib/ntfy
+      - ./config/ntfy/server.yml:/etc/ntfy/server.yml:ro
+    command: serve
+    networks:
+      - nomad
+
+  nomad-jitsi:
+    image: jitsi/web:stable
+    container_name: nomad-jitsi
+    <<: [*restart, *logging]
+    ports:
+      - "8443:443"
+    volumes:
+      - ./config/jitsi/web:/config
+    environment:
+      - PUBLIC_URL=https://${NOMAD_HOST:-localhost}:8443
+      - ENABLE_GUESTS=true
+    networks:
+      - nomad
+    profiles: [office]
+
+# =====================================================
+# ██████  TASKS / PRODUCTIVITY
+# =====================================================
+
+  nomad-vikunja:
+    image: vikunja/vikunja:latest
+    container_name: nomad-vikunja
+    <<: [*restart, *logging]
+    ports:
+      - "3456:3456"
+    volumes:
+      - vikunja_data:/app/vikunja/files
+    environment:
+      - VIKUNJA_DATABASE_HOST=nomad-mysql
+      - VIKUNJA_DATABASE_DATABASE=vikunja
+      - VIKUNJA_DATABASE_USER=vikunja
+      - VIKUNJA_DATABASE_PASSWORD=${VIKUNJA_DB_PASS}
+      - VIKUNJA_SERVICE_JWTSECRET=${VIKUNJA_JWT_SECRET}
+      - VIKUNJA_SERVICE_FRONTENDURL=http://${NOMAD_HOST:-localhost}:3456
+    depends_on:
+      - nomad-mysql
+    networks:
+      - nomad
+
+  nomad-memos:
+    image: neosmemo/memos:stable
+    container_name: nomad-memos
+    <<: [*restart, *logging]
+    ports:
+      - "5230:5230"
+    volumes:
+      - ./data/memos:/var/opt/memos
+    networks:
+      - nomad
+
+  nomad-actual:
+    image: actualbudget/actual-server:latest
+    container_name: nomad-actual
+    <<: [*restart, *logging]
+    ports:
+      - "5006:5006"
+    volumes:
+      - actual_data:/data
+    networks:
+      - nomad
+
+# =====================================================
+# ██████  SECURITY
+# =====================================================
+
+  nomad-vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: nomad-vaultwarden
+    <<: [*restart, *logging]
+    ports:
+      - "8480:80"
+    volumes:
+      - vaultwarden_data:/data
+    environment:
+      - ADMIN_TOKEN=${VAULTWARDEN_ADMIN_TOKEN}
+      - SIGNUPS_ALLOWED=false
+      - WEBSOCKET_ENABLED=true
+      - DOMAIN=http://${NOMAD_HOST:-localhost}:8480
+    networks:
+      - nomad
+
+  nomad-nginx-pm:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nomad-nginx-pm
+    <<: [*restart, *logging]
+    ports:
+      - "80:80"
+      - "443:443"
+      - "81:81"
+    volumes:
+      - nginx_pm_data:/data
+      - nginx_pm_letsencrypt:/etc/letsencrypt
+    networks:
+      - nomad
+
+# =====================================================
+# ██████  MEDIA
+# =====================================================
+
+  nomad-jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: nomad-jellyfin
+    <<: [*restart, *logging]
+    ports:
+      - "8096:8096"
+    volumes:
+      - jellyfin_config:/config
+      - jellyfin_cache:/cache
+      - ./data/media:/media:ro
+    environment:
+      - JELLYFIN_PublishedServerUrl=http://${NOMAD_HOST:-localhost}:8096
+    networks:
+      - nomad
+    profiles: [media]
+
+  nomad-audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    container_name: nomad-audiobookshelf
+    <<: [*restart, *logging]
+    ports:
+      - "13378:80"
+    volumes:
+      - audiobookshelf_config:/config
+      - ./data/audiobooks:/audiobooks
+      - ./data/podcasts:/podcasts
+      - ./data/audiobookshelf/metadata:/metadata
+    networks:
+      - nomad
+    profiles: [media]
+
+  nomad-calibre-web:
+    image: lscr.io/linuxserver/calibre-web:latest
+    container_name: nomad-calibre-web
+    <<: [*restart, *logging]
+    ports:
+      - "8083:8083"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Bishkek
+      - DOCKER_MODS=linuxserver/mods:universal-calibre
+    volumes:
+      - calibre_config:/config
+      - ./data/books:/books
+    networks:
+      - nomad
+    profiles: [media]
+
+  nomad-navidrome:
+    image: deluan/navidrome:latest
+    container_name: nomad-navidrome
+    <<: [*restart, *logging]
+    ports:
+      - "4533:4533"
+    volumes:
+      - ./data/navidrome:/data
+      - ./data/music:/music:ro
+    environment:
+      - ND_SCANSCHEDULE=1h
+      - ND_LOGLEVEL=info
+    networks:
+      - nomad
+    profiles: [media]
+
+# =====================================================
+# ██████  OFFICE / COLLABORATION
+# =====================================================
+
+  nomad-nextcloud:
+    image: nextcloud:latest
+    container_name: nomad-nextcloud
+    <<: [*restart, *logging]
+    ports:
+      - "8445:80"
+    volumes:
+      - nextcloud_data:/var/www/html
+    environment:
+      - MYSQL_HOST=nomad-mysql
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=${NEXTCLOUD_DB_PASS}
+      - NEXTCLOUD_ADMIN_USER=admin
+      - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASS}
+      - NEXTCLOUD_TRUSTED_DOMAINS=${NOMAD_HOST:-localhost}
+      - REDIS_HOST=nomad-redis
+    depends_on:
+      - nomad-mysql
+      - nomad-redis
+    networks:
+      - nomad
+    profiles: [office]
+
+  nomad-onlyoffice:
+    image: onlyoffice/documentserver:latest
+    container_name: nomad-onlyoffice
+    <<: [*restart, *logging]
+    ports:
+      - "8000:80"
+    volumes:
+      - ./data/onlyoffice/logs:/var/log/onlyoffice
+      - ./data/onlyoffice/data:/var/www/onlyoffice/Data
+    environment:
+      - JWT_ENABLED=true
+      - JWT_SECRET=${ONLYOFFICE_JWT_SECRET}
+    networks:
+      - nomad
+    profiles: [office]
+
+# =====================================================
+# ██████  FILES / SYNC
+# =====================================================
+
+  nomad-syncthing:
+    image: lscr.io/linuxserver/syncthing:latest
+    container_name: nomad-syncthing
+    <<: [*restart, *logging]
+    ports:
+      - "8384:8384"
+      - "22000:22000/tcp"
+      - "22000:22000/udp"
+      - "21027:21027/udp"
+    volumes:
+      - syncthing_config:/config
+      - ./data/sync:/sync
+    environment:
+      - PUID=1000
+      - PGID=1000
+    networks:
+      - nomad
+
+# =====================================================
+# ██████  IoT / AUTOMATION
+# =====================================================
+
+  nomad-homeassistant:
+    image: homeassistant/home-assistant:stable
+    container_name: nomad-homeassistant
+    <<: *restart
+    ports:
+      - "8123:8123"
+    volumes:
+      - hass_data:/config
+      - /etc/localtime:/etc/localtime:ro
+    network_mode: host
+    privileged: true
+
+  nomad-mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: nomad-mosquitto
+    <<: [*restart, *logging]
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - mosquitto_data:/mosquitto/data
+      - ./config/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    networks:
+      - nomad
+
+  nomad-nodered:
+    image: nodered/node-red:latest
+    container_name: nomad-nodered
+    <<: [*restart, *logging]
+    ports:
+      - "1880:1880"
+    volumes:
+      - nodered_data:/data
+    environment:
+      - TZ=Asia/Bishkek
+    depends_on:
+      - nomad-mosquitto
+    networks:
+      - nomad
+
+# =====================================================
+# ██████  MONITORING / OBSERVABILITY
+# =====================================================
+
+  nomad-influxdb:
+    image: influxdb:2
+    container_name: nomad-influxdb
+    <<: [*restart, *logging]
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=nomad
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUX_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=nomad
+      - DOCKER_INFLUXDB_INIT_BUCKET=sensors
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUX_TOKEN}
+    networks:
+      - nomad
+
+  nomad-grafana:
+    image: grafana/grafana:latest
+    container_name: nomad-grafana
+    <<: [*restart, *logging]
+    ports:
+      - "3001:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./config/grafana/provisioning:/etc/grafana/provisioning:ro
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      - GF_SERVER_ROOT_URL=http://${NOMAD_HOST:-localhost}:3001
+      - GF_FEATURE_TOGGLES_ENABLE=publicDashboards
+    depends_on:
+      - nomad-influxdb
+    networks:
+      - nomad
+
+  nomad-prometheus:
+    image: prom/prometheus:latest
+    container_name: nomad-prometheus
+    <<: [*restart, *logging]
+    ports:
+      - "9090:9090"
+    volumes:
+      - prometheus_data:/prometheus
+      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks:
+      - nomad
+
+  nomad-node-exporter:
+    image: prom/node-exporter:latest
+    container_name: nomad-node-exporter
+    <<: [*restart, *logging]
+    ports:
+      - "9100:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    networks:
+      - nomad
+
+  nomad-uptime-kuma:
+    image: louislam/uptime-kuma:1
+    container_name: nomad-uptime-kuma
+    <<: [*restart, *logging]
+    ports:
+      - "3002:3001"
+    volumes:
+      - uptime_kuma_data:/app/data
+    networks:
+      - nomad
+
+  nomad-healthchecks:
+    image: healthchecks/healthchecks:latest
+    container_name: nomad-healthchecks
+    <<: [*restart, *logging]
+    ports:
+      - "8200:8000"
+    volumes:
+      - healthchecks_data:/data
+    environment:
+      - SECRET_KEY=${HEALTHCHECKS_SECRET}
+      - ALLOWED_HOSTS=*
+      - DB=sqlite
+      - DEBUG=False
+    networks:
+      - nomad
+
+  nomad-dockhand:
+    image: ghcr.io/dockhand/dockhand:latest
+    container_name: nomad-dockhand
+    <<: [*restart, *logging]
+    ports:
+      - "9876:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - dockhand_data:/data
+    networks:
+      - nomad
+
+# =====================================================
+# ██████  HOMEPAGE DASHBOARD
+# =====================================================
+
+  nomad-homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: nomad-homepage
+    <<: [*restart, *logging]
+    ports:
+      - "3003:3000"
+    volumes:
+      - ./config/homepage:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - nomad
+
+# =====================================================
+# ██████  SDR RADIO
+# =====================================================
+
+  nomad-sdr:
+    image: jketterl/openwebrx:stable
+    container_name: nomad-sdr
+    <<: [*restart, *logging]
+    ports:
+      - "8073:8073"
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    volumes:
+      - ./config/openwebrx:/var/lib/openwebrx
+    networks:
+      - nomad
+    profiles: [sdr]
+
+  nomad-adsb:
+    image: antirez/dump1090:latest
+    container_name: nomad-adsb
+    <<: [*restart, *logging]
+    ports:
+      - "8079:8080"
+      - "30005:30005"
+      - "30003:30003"
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    networks:
+      - nomad
+    profiles: [sdr]
+
+# =====================================================
+# ██████  WEATHER STATION
+# =====================================================
+
+  nomad-weewx:
+    image: felddy/weewx:5
+    container_name: nomad-weewx
+    <<: [*restart, *logging]
+    ports:
+      - "8077:80"
+    volumes:
+      - ./data/weewx:/data
+    devices:
+      - /dev/ttyUSB1:/dev/ttyUSB1
+    networks:
+      - nomad
+    profiles: [weather]
+
+# =====================================================
+# ██████  TACTICAL / SAR
+# =====================================================
+
+  nomad-freetakserver:
+    image: freetakteam/freetakserver:latest
+    container_name: nomad-fts
+    <<: [*restart, *logging]
+    ports:
+      - "8087:8087"
+      - "19023:19023"
+      - "8075:8080"
+    networks:
+      - nomad
+    profiles: [tactical]
+
+# =====================================================
+# ██████  3D PRINTING
+# =====================================================
+
+  nomad-octoprint:
+    image: octoprint/octoprint:latest
+    container_name: nomad-octoprint
+    <<: [*restart, *logging]
+    ports:
+      - "5000:5000"
+    devices:
+      - /dev/ttyACM0:/dev/ttyACM0
+    volumes:
+      - octoprint_data:/octoprint
+    networks:
+      - nomad
+    profiles: [3dprint]
+
+# =====================================================
+# ██████  INFRASTRUCTURE SERVICES
+# =====================================================
+
+  nomad-postgres:
+    image: postgres:16-alpine
+    container_name: nomad-postgres
+    <<: [*restart, *logging]
+    environment:
+      - POSTGRES_DB=nomad_shared
+      - POSTGRES_USER=nomad
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+      - ./config/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - nomad
+
+  nomad-redis:
+    image: redis:7-alpine
+    container_name: nomad-redis
+    <<: [*restart, *logging]
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - ./data/redis:/data
+    networks:
+      - nomad

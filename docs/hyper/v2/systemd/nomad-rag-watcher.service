@@ -1,0 +1,28 @@
+[Unit]
+Description=NOMAD RAG Document Watcher (LIBRARIAN)
+Documentation=https://github.com/Crosstalk-Solutions/project-nomad
+After=docker.service nomad-orchestrator.service
+Requires=docker.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/project-nomad
+ExecStart=/usr/bin/python3 /opt/project-nomad/scripts/rag_indexer.py --watch
+Restart=always
+RestartSec=20
+
+EnvironmentFile=/opt/project-nomad/.env
+Environment=PYTHONUNBUFFERED=1
+Environment=WATCH_DIR=/opt/project-nomad/data/incoming
+Environment=QDRANT_URL=http://localhost:6333
+Environment=OLLAMA_URL=http://localhost:11434
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=nomad-rag-watcher
+
+MemoryMax=512M
+
+[Install]
+WantedBy=multi-user.target

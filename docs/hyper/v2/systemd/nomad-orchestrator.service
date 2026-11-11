@@ -1,0 +1,40 @@
+[Unit]
+Description=PROJECT N.O.M.A.D. Agent Orchestrator (SIGMA)
+Documentation=https://github.com/Crosstalk-Solutions/project-nomad
+After=docker.service network-online.target
+Requires=docker.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/project-nomad
+ExecStartPre=/bin/sleep 15
+ExecStartPre=/usr/bin/docker ps --filter name=nomad-ollama --filter status=running -q
+ExecStart=/usr/bin/python3 /opt/project-nomad/scripts/orchestrator.py
+Restart=always
+RestartSec=15
+RestartPreventExitStatus=SIGKILL
+
+# Переменные окружения
+EnvironmentFile=/opt/project-nomad/.env
+Environment=PYTHONUNBUFFERED=1
+Environment=NOMAD_ROOT=/opt/project-nomad
+Environment=SKILLS_DIR=/opt/project-nomad/skills
+Environment=NTFY_URL=http://localhost:8088
+
+# Логирование
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=nomad-orchestrator
+
+# Безопасность
+NoNewPrivileges=false
+PrivateTmp=false
+
+# Ресурсы
+MemoryMax=2G
+CPUQuota=200%
+
+[Install]
+WantedBy=multi-user.target

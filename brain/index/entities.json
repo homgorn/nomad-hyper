@@ -1,0 +1,10 @@
+{
+  "entities": [
+    {"id": "project-nomad", "name": "Project NOMAD", "type": "project", "source": "docs/hyper/hyperspec.md"},
+    {"id": "qwen3.5", "name": "Qwen3.5", "type": "model", "source": "docs/hyper/hyperspec.md"},
+    {"id": "claude-agent-sdk", "name": "Claude Agent SDK", "type": "framework", "source": "docs/hyper/hyperspec.md"},
+    {"id": "unsloth", "name": "Unsloth", "type": "tool", "source": "docs/hyper/hyperspec.md"},
+    {"id": "meshtastic", "name": "Meshtastic", "type": "technology", "source": "docs/hyper/hyperspec.md"},
+    {"id": "vaultwarden", "name": "Vaultwarden", "type": "service", "source": "docs/hyper/modules-deep-research.md"}
+  ]
+}

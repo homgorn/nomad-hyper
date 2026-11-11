@@ -1,0 +1,51 @@
+# NOMAD Prometheus Config
+global:
+  scrape_interval: 30s
+  evaluation_interval: 30s
+  scrape_timeout: 10s
+  external_labels:
+    system: "nomad"
+
+scrape_configs:
+  # Сам Prometheus
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # Хост-система (CPU, RAM, диск, сеть)
+  - job_name: "node"
+    static_configs:
+      - targets: ["nomad-node-exporter:9100"]
+
+  # Docker контейнеры
+  - job_name: "cadvisor"
+    static_configs:
+      - targets: ["nomad-cadvisor:8080"]
+
+  # Ollama метрики
+  - job_name: "ollama"
+    static_configs:
+      - targets: ["nomad-ollama:11434"]
+    metrics_path: /metrics
+
+  # MySQL
+  - job_name: "mysql"
+    static_configs:
+      - targets: ["nomad-mysqld-exporter:9104"]
+
+  # Redis
+  - job_name: "redis"
+    static_configs:
+      - targets: ["nomad-redis-exporter:9121"]
+
+  # Qdrant
+  - job_name: "qdrant"
+    static_configs:
+      - targets: ["nomad-qdrant:6333"]
+    metrics_path: /metrics
+
+  # InfluxDB
+  - job_name: "influxdb"
+    static_configs:
+      - targets: ["nomad-influxdb:8086"]
+    metrics_path: /metrics
