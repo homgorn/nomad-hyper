@@ -1,0 +1,22 @@
+{
+  "app": {
+    "name": "NOMAD Hyper",
+    "tagline": "Knowledge That Never Goes Offline"
+  },
+  "nav": {
+    "home": "Home",
+    "chat": "AI Chat",
+    "knowledge": "Knowledge Base",
+    "maps": "Maps",
+    "benchmark": "Benchmark",
+    "settings": "Settings"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  }
+}
