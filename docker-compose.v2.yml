@@ -74,6 +74,9 @@ volumes:
   octoprint_data:
   # Health
   hikma_data:
+  # Training
+  unsloth_data:
+  adapters_data:
 
 x-restart: &restart
   restart: unless-stopped
@@ -850,6 +853,26 @@ services:
       - ./data/redis:/data
     networks:
       - nomad
+
+# =====================================================
+# UNSLOTH TRAINING (optional)
+# =====================================================
+
+  nomad-unsloth:
+    image: unsloth/unsloth-studio:latest
+    container_name: nomad-unsloth
+    <<: [*restart, *logging]
+    ports:
+      - "8000:8000"
+    environment:
+      - UNSLOTH_NO_TELEMETRY=1
+    volumes:
+      - unsloth_data:/data
+      - adapters_data:/adapters
+      - ./scripts:/scripts:ro
+    networks:
+      - nomad
+    profiles: [training]
 
 # =====================================================
 # HEALTH

@@ -3,7 +3,7 @@
 ## P0 (Критично)
 - [x] Интегрировать источники Survival LLM (WikiMed, MedlinePlus, WikEM, Ready.gov, CDC, military manuals, wikiHow, iFixit, Appropedia, Stack Exchange) в medical/RAG модули
 - [x] Добавить Hikma Health как curated app (field clinics)
-- [ ] Добавить Unsloth Desktop как backend обучения + OpenAI-compat endpoint
+- [x] Добавить Unsloth Desktop как backend обучения + OpenAI-compat endpoint
 - [ ] Добавить "survival mode" (автопереключение на минимальную модель + отключение несущественного при низком заряде)
 
 ## P1 (Высокий приоритет)
