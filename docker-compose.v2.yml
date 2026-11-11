@@ -10,6 +10,9 @@
 #   weather  — WeeWX (требует метеостанцию)
 #   tactical — FreeTAK Server (SAR операции)
 #   3dprint  — OctoPrint (требует 3D-принтер)
+#   training — Unsloth Studio (LoRA обучение, нужен GPU)
+#   health   — Hikma Health (offline EHR, field clinics)
+#   notes    — NoteDiscovery (self-hosted KB + MCP для AI агентов)
 #
 # Запуск: docker compose up -d
 # Запуск с профилями: docker compose --profile media --profile sdr up -d
@@ -853,6 +856,20 @@ services:
       - ./data/redis:/data
     networks:
       - nomad
+
+  nomad-notediscovery:
+    image: ghcr.io/gamosoft/notediscovery:latest
+    container_name: nomad-notediscovery
+    <<: [*restart, *logging]
+    ports:
+      - "8091:8000"
+    environment:
+      - MCP_ENABLED=true
+    volumes:
+      - ./data/notediscovery:/app/data
+    networks:
+      - nomad
+    profiles: [notes]
 
 # =====================================================
 # UNSLOTH TRAINING (optional)

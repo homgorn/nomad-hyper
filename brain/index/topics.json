@@ -1,6 +1,19 @@
 {
   "topics": [
     {
+      "id": "affinne-notediscovery",
+      "file": "wiki\\affine-notediscovery.md",
+      "summary": "AFFiNE (docs+whiteboard, local-first) and NoteDiscovery (self-hosted KB with MCP for AI agents) as knowledge-workspace options.",
+      "tags": [
+        "notes",
+        "docs",
+        "whiteboard",
+        "mcp",
+        "affine"
+      ],
+      "updated": "2026-11-12"
+    },
+    {
       "id": "ai-stack",
       "file": "wiki\\ai-stack.md",
       "summary": "AI stack uses Qwen3.5/3.6/3.8 models via Ollama, Claude Agent SDK for agents/sub-agents, Qdrant for RAG, nomic-embed-text for embeddings, Whisper+Piper for voice, Unsloth Desktop for LoRA training.",
@@ -85,6 +98,19 @@
         "content"
       ],
       "updated": "2026-11-11"
+    },
+    {
+      "id": "meshcore-vs-meshtastic",
+      "file": "wiki\\meshcore.md",
+      "summary": "Comparison and integration guidance for MeshCore (v1.18, Oct 2026) alongside existing Meshtastic support in NOMAD Hyper.",
+      "tags": [
+        "comms",
+        "mesh",
+        "meshcore",
+        "meshtastic",
+        "lora"
+      ],
+      "updated": "2026-11-12"
     },
     {
       "id": "model-updates",

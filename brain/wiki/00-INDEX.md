@@ -8,6 +8,7 @@
 - [modules.md](modules.md) — New modules from deep research
 - [unsloth-lora.md](unsloth-lora.md) — LoRA training with Unsloth
 - [openspec.md](openspec.md) — OpenSpec SDD workflow
+- [meshcore-vs-meshtastic.md](meshcore-vs-meshtastic.md) — MeshCore vs Meshtastic
 - [lan-distribution.md](lan-distribution.md) — LAN distribution (cable/WiFi)
 - [survival-roadmap.md](survival-roadmap.md) — Survival roadmap
 - [upstream-gaps.md](upstream-gaps.md) — Upstream gaps
