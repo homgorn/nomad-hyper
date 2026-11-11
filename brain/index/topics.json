@@ -1,19 +1,181 @@
 {
   "topics": [
-    {"id": "overview", "file": "wiki/overview.md", "summary": "NOMAD Hyper overview", "tags": ["overview"], "updated": "2026-11-11"},
-    {"id": "ai-stack", "file": "wiki/ai-stack.md", "summary": "AI stack Qwen3.5 + Claude Agent SDK + Unsloth", "tags": ["ai"], "updated": "2026-11-11"},
-    {"id": "iot-power", "file": "wiki/iot-power.md", "summary": "IoT sensors and solar power", "tags": ["iot", "power"], "updated": "2026-11-11"},
-    {"id": "comms", "file": "wiki/comms.md", "summary": "Communications LoRa/SDR/satellite", "tags": ["comms"], "updated": "2026-11-11"},
-    {"id": "modules", "file": "wiki/modules.md", "summary": "New modules from deep research", "tags": ["modules"], "updated": "2026-11-11"},
-    {"id": "unsloth-lora", "file": "wiki/unsloth-lora.md", "summary": "Unsloth LoRA training", "tags": ["unsloth", "lora"], "updated": "2026-11-11"},
-    {"id": "openspec", "file": "wiki/openspec.md", "summary": "OpenSpec SDD workflow", "tags": ["openspec"], "updated": "2026-11-11"},
-    {"id": "lan-distribution", "file": "wiki/lan-distribution.md", "summary": "LAN distribution over cable/WiFi", "tags": ["lan", "distributed"], "updated": "2026-11-11"},
-    {"id": "survival-roadmap", "file": "wiki/survival-roadmap.md", "summary": "Survival roadmap features", "tags": ["survival", "roadmap"], "updated": "2026-11-11"},
-    {"id": "upstream-gaps", "file": "wiki/upstream-gaps.md", "summary": "Upstream NOMAD gaps", "tags": ["upstream", "gaps"], "updated": "2026-11-11"},
-    {"id": "locations", "file": "wiki/locations.md", "summary": "Multi-location support", "tags": ["locations"], "updated": "2026-11-11"},
-    {"id": "i18n", "file": "wiki/i18n.md", "summary": "Internationalization", "tags": ["i18n", "localization"], "updated": "2026-11-11"},
-    {"id": "tools-libs", "file": "wiki/tools-libs.md", "summary": "Tools and libraries", "tags": ["tools", "libs"], "updated": "2026-11-11"},
-    {"id": "improvements-2026", "file": "wiki/improvements-2026.md", "summary": "Improvements research Nov 2026", "tags": ["research", "improvements"], "updated": "2026-11-11"},
-    {"id": "model-updates", "file": "wiki/model-updates.md", "summary": "Model updates Nov 2026", "tags": ["models", "updates"], "updated": "2026-11-11"}
+    {
+      "id": "ai-stack",
+      "file": "wiki\\ai-stack.md",
+      "summary": "AI stack uses Qwen3.5/3.6/3.8 models via Ollama, Claude Agent SDK for agents/sub-agents, Qdrant for RAG, nomic-embed-text for embeddings, Whisper+Piper for voice, Unsloth Desktop for LoRA training.",
+      "tags": [
+        "ai",
+        "qwen",
+        "claude-agent-sdk",
+        "rag",
+        "unsloth"
+      ],
+      "updated": "2026-11-11"
+    },
+    {
+      "id": "comms",
+      "file": "wiki\\comms.md",
+      "summary": "Multi-layer comms: WiFi LAN, LoRa/Meshtastic mesh, SDR (RTL-SDR), satellite (Starlink Mini, Garmin inReach), Matrix Synapse chat, ntfy push notifications.",
+      "tags": [
+        "comms",
+        "lora",
+        "meshtastic",
+        "sdr",
+        "satellite",
+        "matrix"
+      ],
+      "updated": "2026-11-11"
+    },
+    {
+      "id": "i18n",
+      "file": "wiki\\i18n.md",
+      "summary": "Multi-language UI with LLM-powered translation (100% with validation), human-in-the-loop review, and community contributions.",
+      "tags": [
+        "i18n",
+        "localization",
+        "translation",
+        "llm"
+      ],
+      "updated": "2026-11-11"
+    },
+    {
+      "id": "improvements-2026",
+      "file": "wiki\\improvements-2026.md",
+      "summary": "Deep research findings: Survival LLM competitor, Qwen3.8-Flash-Next, Unsloth Desktop, Meshtastic 2.8/MeshCore 1.18, Hikma Health, AFFiNE, NoteDiscovery, Needle 2.",
+      "tags": [
+        "research",
+        "improvements",
+        "2026"
+      ],
+      "updated": "2026-11-11"
+    },
+    {
+      "id": "iot-power",
+      "file": "wiki\\iot-power.md",
+      "summary": "IoT ecosystem with ESP32 sensors, MQTT/Mosquitto, Home Assistant, Node-RED, Grafana/InfluxDB. Solar power with LiFePO4, MPPT, INA226 monitoring.",
+      "tags": [
+        "iot",
+        "sensors",
+        "solar",
+        "power",
+        "mqtt"
+      ],
+      "updated": "2026-11-11"
+    },
+    {
+      "id": "lan-distribution",
+      "file": "wiki\\lan-distribution.md",
+      "summary": "Options for running NOMAD Hyper across a local network: distributed model inference, shared storage, mesh, and edge nodes over cable/WiFi.",
+      "tags": [
+        "lan",
+        "distributed",
+        "networking",
+        "model"
+      ],
+      "updated": "2026-11-11"
+    },
+    {
+      "id": "locations",
+      "file": "wiki\\locations.md",
+      "summary": "NOMAD Hyper supports multiple locations (regions/cities) with multi-select for content (ZIM, maps, weather, plants, comms frequencies).",
+      "tags": [
+        "locations",
+        "multi-select",
+        "content"
+      ],
+      "updated": "2026-11-11"
+    },
+    {
+      "id": "model-updates",
+      "file": "wiki\\model-updates.md",
+      "summary": "Latest model and tool updates as of Nov 2026: Ollama 0.40.15, Qwen3.6/3.8, Unsloth Desktop, DeepSeek V4 distilled, MLX support.",
+      "tags": [
+        "models",
+        "updates",
+        "ollama",
+        "unsloth"
+      ],
+      "updated": "2026-11-11"
+    },
+    {
+      "id": "modules",
+      "file": "wiki\\modules.md",
+      "summary": "New modules from deep research: Wyoming voice stack, Dockhand, Vaultwarden, Audiobookshelf, Calibre-Web, Docmost, Syncthing, Restic, ArchiveBox, Homepage, and more.",
+      "tags": [
+        "modules",
+        "docker",
+        "selfhosted"
+      ],
+      "updated": "2026-11-11"
+    },
+    {
+      "id": "openspec",
+      "file": "wiki\\openspec.md",
+      "summary": "OpenSpec spec-driven development. Workflow: explore -> propose -> apply -> verify -> archive. Artifacts: proposal.md, specs/, design.md, tasks.md.",
+      "tags": [
+        "openspec",
+        "sdd",
+        "workflow"
+      ],
+      "updated": "2026-11-11"
+    },
+    {
+      "id": "overview",
+      "file": "wiki\\overview.md",
+      "summary": "NOMAD Hyper is an offline-first knowledge and education server forked from Project NOMAD, extended with AI agents, IoT, LoRa, SDR, solar power, voice, and Unsloth LoRA training.",
+      "tags": [
+        "overview",
+        "nomad",
+        "offline"
+      ],
+      "updated": "2026-11-11"
+    },
+    {
+      "id": "survival-roadmap",
+      "file": "wiki\\survival-roadmap.md",
+      "summary": "Additional features to fill NOMAD Hyper for survival scenarios: mesh, power, medical, navigation, comms, food, water, security.",
+      "tags": [
+        "survival",
+        "roadmap",
+        "features"
+      ],
+      "updated": "2026-11-11"
+    },
+    {
+      "id": "tools-libs",
+      "file": "wiki\\tools-libs.md",
+      "summary": "Required tools/libraries/frameworks for NOMAD Hyper: existing stack + new additions for i18n, multi-location, RAG, voice, mesh, etc.",
+      "tags": [
+        "tools",
+        "libraries",
+        "frameworks",
+        "dependencies"
+      ],
+      "updated": "2026-11-11"
+    },
+    {
+      "id": "unsloth-lora",
+      "file": "wiki\\unsloth-lora.md",
+      "summary": "LoRA training with Unsloth on 4GB GPU + CPU locally and in parallel in cloud. Internal API for training jobs. Roadmap for additional models.",
+      "tags": [
+        "unsloth",
+        "lora",
+        "training",
+        "gpu"
+      ],
+      "updated": "2026-11-11"
+    },
+    {
+      "id": "upstream-gaps",
+      "file": "wiki\\upstream-gaps.md",
+      "summary": "Gap analysis of original Project NOMAD v1.35.1: features present vs missing, based on codebase exploration.",
+      "tags": [
+        "upstream",
+        "gaps",
+        "nomad"
+      ],
+      "updated": "2026-11-11"
+    }
   ]
 }

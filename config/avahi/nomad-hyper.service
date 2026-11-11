@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+<service-group>
+  <name replace-wildcards="yes">NOMAD Hyper on %h</name>
+  <service>
+    <type>_nomad._tcp</type>
+    <port>8080</port>
+    <txt-record>version=2.0.0</txt-record>
+    <txt-record>name=NOMAD Hyper</txt-record>
+  </service>
+</service-group>
