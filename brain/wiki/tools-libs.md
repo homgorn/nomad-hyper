@@ -63,13 +63,14 @@ updated: 2026-11-11
 - Python 3.12 (agents, training) — installed
 
 ## To Search/Download
-- [ ] react-i18next (npm)
+- [x] react-i18next (npm) — added to admin/package.json (install pending completion of npm cache)
+- [x] Hikma Health (Docker) — added (profile `health`)
+- [x] Needle 2 — verified Cactus-Compute/needle2 (Apache-2.0, 45M params, 28MB RAM); use as on-device tool-calling model via `pip install cactus`, not via Ollama
+- [x] NoteDiscovery (Docker) — added (profile `notes`), MCP enabled
 - [ ] i18next-scanner (npm)
 - [ ] LibreTranslate (Docker)
 - [ ] wyoming-whisper (Docker)
 - [ ] wyoming-piper (Docker)
 - [ ] MeshCore tools (GitHub)
-- [ ] Hikma Health (Docker)
 - [ ] MenSung (GitHub)
 - [ ] Pl@ntNet offline (GitHub)
-- [ ] Needle 2 (GitHub/HF)
