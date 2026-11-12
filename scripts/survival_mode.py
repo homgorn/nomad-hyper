@@ -12,6 +12,7 @@ Usage: python scripts/survival_mode.py --once
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 import urllib.request
@@ -49,12 +50,15 @@ def get_battery_percent():
     """Try HA MQTT first, then INA226 via /sys, then estimate."""
     try:
         # INA226 via ESP32 → MQTT → HA REST
+        token = os.environ.get("NOMAD_HA_TOKEN")
+        if not token:
+            raise RuntimeError("NOMAD_HA_TOKEN not set; skipping HA battery check")
         req = urllib.request.Request(
             "http://localhost:8123/api/states/sensor.nomad_battery_percent",
-            headers={"Authorization": "Bearer"}
+            headers={"Authorization": f"Bearer {token}"}
         )
         # This is a placeholder — actual integration depends on HA setup
-        raise NotImplementedError("HA battery sensor not configured")
+        raise NotImplementedError("HA battery sensor not wired yet")
     except Exception:
         pass
     try:

@@ -158,6 +158,17 @@
       "updated": "2026-11-11"
     },
     {
+      "id": "research-agents-2026",
+      "file": "wiki\\research-agents-2026.md",
+      "summary": "Five parallel agent reports: emergency sources (80+), AI models, comms (MeshCore/Reticulum/SDR), medical (Hikma/MenSung), power/IoT (MPPT/BMS/HA). All under brain/research/agents-2026/.",
+      "tags": [
+        "research",
+        "agents",
+        "2026"
+      ],
+      "updated": "2026-11-12"
+    },
+    {
       "id": "survival-roadmap",
       "file": "wiki\\survival-roadmap.md",
       "summary": "Additional features to fill NOMAD Hyper for survival scenarios: mesh, power, medical, navigation, comms, food, water, security.",

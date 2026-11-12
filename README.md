@@ -37,6 +37,8 @@ Project NOMAD can be installed on any Debian-based operating system (we recommen
 
 *Note: sudo/root privileges are required to run the install script*
 
+> **Note — this is the Hyper fork:** the upstream install script below installs *Project NOMAD*, not the Hyper extensions. For the Hyper stack, copy `docker-compose.v2.yml` and `.env.example` to `.env`, then `docker compose -f docker-compose.v2.yml up -d` (see `docs/hyper/README.md`). The upstream script remains for the base Command Center only.
+
 ### Quick Install (Debian-based OS Only)
 ```bash
 sudo apt-get update && \
@@ -182,6 +184,10 @@ It prints the resolved decision — current version, whether the clock is inside
 - **Benchmark Leaderboard:** [benchmark.projectnomad.us](https://benchmark.projectnomad.us) - See how your hardware stacks up against other NOMAD builds
 - **FAQ:** [FAQ.md](FAQ.md) - Find answers to frequently asked questions
 - **Community Add-Ons:** [admin/docs/community-add-ons.md](admin/docs/community-add-ons.md) - Third-party content packs built by the community
+
+## Development on Windows
+
+`npm install` in `admin/` will **not** fully succeed on Windows: `@openzim/libzim` (native ZIM bindings) has no prebuilt binaries for Windows and needs Visual Studio C++ build tools + a global libzim. Use `npm install --ignore-scripts` for type-checking/linting only, or develop in WSL2/Docker where the full toolchain works. Unit tests that don't touch ZIM run fine either way.
 
 ## License
 

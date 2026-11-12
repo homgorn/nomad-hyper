@@ -11,8 +11,8 @@
 - [x] Добавить NoteDiscovery с MCP для AI-редактирования заметок
 - [x] Добавить Needle 2 для edge-устройств (14MB, 28MB RAM)
 - [ ] Добавить AFFiNE для визуального планирования (compose ожидает верификации образа)
-- [x] Добавить i18n (react-i18next + LLM перевод + валидация)
-- [ ] Добавить multi-location support (multi-select локаций)
+- [x] Добавить i18n — инфраструктура + 10 локалей (common.json parity-проверена). ОСТАЛОСЬ: locale switcher UI, LLM pipeline с back-translation, CI key-parity
+- [x] Добавить multi-location support — backend (/api/locations GET/PUT, catalog, KV storage, unit tests)
 
 ## P2 (Средний приоритет)
 - [ ] Добавить DeepSeek V4 Flash distilled в Qwen3.5-9B

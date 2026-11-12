@@ -5,7 +5,7 @@ summary: Comparison and integration guidance for MeshCore (v1.18, Oct 2026) alon
 tags: [comms, mesh, meshcore, meshtastic, lora]
 entities: [MeshCore, Meshtastic, LR2021]
 claims: []
-sources: [brain/research/comms-improvements-2026.md, docs/hyper/hyperspec.md]
+sources: [brain/research/agents-2026/comms-improvements-2026.md, docs/hyper/hyperspec.md]
 updated: 2026-11-12
 ---
 
@@ -32,7 +32,7 @@ updated: 2026-11-12
 ## Integration in NOMAD Hyper
 - upstream NOMAD already ships `nomad_meshcore_web` (supply depot) — nothing to build for basic use
 - Roadmap: add MeshCore MQTT bridge config, MeshMonitor parity doc (already in research), unified comms panel
-- `config/` for LoRa: see `brain/research/comms-improvements-2026.md`
+- `config/` for LoRa: see `brain/research/agents-2026/comms-improvements-2026.md`
 
 ## Sources
 - MeshCore docs: https://meshcore.io

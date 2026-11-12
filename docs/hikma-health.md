@@ -18,7 +18,7 @@ services:
     container_name: nomad-hikma
     restart: unless-stopped
     ports:
-      - "3456:3000"
+      - "3457:3000"
     environment:
       - DATABASE_URL=postgresql://hikma:pass@nomad-postgres:5432/hikma
       - REDIS_URL=redis://nomad-redis:6379
@@ -39,7 +39,7 @@ services:
 MIT — commercial OK
 
 ## Status
-- [ ] Add to service_names.ts
-- [ ] Add to supply_depot_docs.ts
-- [ ] Add docker-compose entry
-- [ ] Add documentation section
+- [x] Add to service_names.ts
+- [x] Add to supply_depot_docs.ts
+- [x] Add docker-compose entry (host port 3457; Vikunja uses 3456)
+- [x] Add documentation section in admin/docs/supply-depot-apps.md
