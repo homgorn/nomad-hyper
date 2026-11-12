@@ -7,5 +7,5 @@
 - [x] Wire routes /api/locations (GET, PUT) with validation
 - [x] Unit tests for LocationService (6/6 pass via node --test)
 - [x] openspec validate --changes passes
-- [ ] Verify: typecheck passes (background tsc run in progress)
+- [x] Verify: typecheck passes (node_modules rebuilt; tsc --noEmit exit=0)
 - [ ] Follow-ups (separate changes): frontend selector, RAG/maps/plant filtering
