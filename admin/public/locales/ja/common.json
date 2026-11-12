@@ -1,0 +1,22 @@
+﻿{
+    "common":  {
+                   "success":  "成功",
+                   "loading":  "読み込み中...",
+                   "error":  "エラー",
+                   "cancel":  "キャンセル",
+                   "save":  "保存",
+                   "delete":  "削除"
+               },
+    "app":  {
+                "tagline":  "オフラインにならない知識",
+                "name":  "NOMAD Hyper"
+            },
+    "nav":  {
+                "knowledge":  "ナレッジベース",
+                "benchmark":  "ベンチマーク",
+                "chat":  "AI チャット",
+                "settings":  "設定",
+                "home":  "ホーム",
+                "maps":  "マップ"
+            }
+}

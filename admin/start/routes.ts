@@ -20,6 +20,7 @@ import OllamaController from '#controllers/ollama_controller'
 import OpenApiController from '#controllers/openapi_controller'
 import RagController from '#controllers/rag_controller'
 import SettingsController from '#controllers/settings_controller'
+import LocationsController from '#controllers/locations_controller'
 import SupplyDepotController from '#controllers/supply_depot_controller'
 import SystemController from '#controllers/system_controller'
 import CollectionUpdatesController from '#controllers/collection_updates_controller'
@@ -76,6 +77,7 @@ import {
   getAvailableModelsSchema,
 } from '#validators/ollama'
 import { getSettingSchema, updateSettingSchema } from '#validators/settings'
+import { locationsSchema } from '#validators/locations'
 import {
   createSessionSchema,
   updateSessionSchema,
@@ -253,6 +255,20 @@ router
     })
   })
   .prefix('/api/maps')
+
+router
+  .group(() => {
+    documented(router.get('/', [LocationsController, 'index']), {
+      summary: 'List the location catalog and current selection',
+      tags: ['locations'],
+    })
+    documented(router.put('/', [LocationsController, 'update']), {
+      summary: 'Set selected locations (multi-select); empty list = unrestricted',
+      tags: ['locations'],
+      request: locationsSchema,
+    })
+  })
+  .prefix('/api/locations')
 
 router
   .group(() => {

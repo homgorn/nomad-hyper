@@ -102,6 +102,9 @@ export const KV_STORE_SCHEMA = {
   // herbal REMEDY sections stay hidden until this flips true. Defaults off
   // (null → false); flipped on after a clinician content-pass, not user-toggled.
   'drugReference.remediesEnabled': 'boolean',
+  // Multi-location support. JSON string array of location ids from constants/locations.ts
+  // (e.g. "[\"kg-bishkek\"]"). Unset/invalid means unrestricted (all locations).
+  'content.selectedLocations':   'string',
 } as const
 
 type KVTagToType<T extends string> = T extends 'boolean' ? boolean : string

@@ -15,6 +15,7 @@
 - [locations.md](locations.md) — Multi-location support
 - [i18n.md](i18n.md) — Internationalization
 - [tools-libs.md](tools-libs.md) — Tools, libraries, frameworks
+- [review-2026-11.md](review-2026-11.md) — Code review findings and fixes
 - [research-agents-2026.md](research-agents-2026.md) — Agent-swarm research summaries (Nov 2026)
 - [improvements-2026.md](improvements-2026.md) — Improvements research Nov 2026
 - [model-updates.md](model-updates.md) — Model updates (Nov 2026)

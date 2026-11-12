@@ -1,0 +1,22 @@
+﻿{
+    "common":  {
+                   "success":  "Éxito",
+                   "loading":  "Cargando...",
+                   "error":  "Error",
+                   "cancel":  "Cancelar",
+                   "save":  "Guardar",
+                   "delete":  "Eliminar"
+               },
+    "app":  {
+                "tagline":  "El conocimiento que nunca se desconecta",
+                "name":  "NOMAD Hyper"
+            },
+    "nav":  {
+                "knowledge":  "Base de conocimientos",
+                "benchmark":  "Benchmark",
+                "chat":  "Chat IA",
+                "settings":  "Ajustes",
+                "home":  "Inicio",
+                "maps":  "Mapas"
+            }
+}

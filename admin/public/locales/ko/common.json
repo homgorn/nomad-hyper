@@ -1,0 +1,22 @@
+﻿{
+    "common":  {
+                   "success":  "성공",
+                   "loading":  "로딩 중...",
+                   "error":  "오류",
+                   "cancel":  "취소",
+                   "save":  "저장",
+                   "delete":  "삭제"
+               },
+    "app":  {
+                "tagline":  "절대 오프라인이 되지 않는 지식",
+                "name":  "NOMAD Hyper"
+            },
+    "nav":  {
+                "knowledge":  "지식 베이스",
+                "benchmark":  "벤치마크",
+                "chat":  "AI 채팅",
+                "settings":  "설정",
+                "home":  "홈",
+                "maps":  "지도"
+            }
+}

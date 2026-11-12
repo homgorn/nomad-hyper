@@ -169,6 +169,17 @@
       "updated": "2026-11-12"
     },
     {
+      "id": "review-2026-11",
+      "file": "wiki\\review-2026-11.md",
+      "summary": "Full repo review findings and fixes: port conflicts, missing healthchecks, missing .env.example, stale TODO i18n state, broken wiki refs, Windows libzim limitation.",
+      "tags": [
+        "review",
+        "audit",
+        "2026-11"
+      ],
+      "updated": "2026-11-12"
+    },
+    {
       "id": "survival-roadmap",
       "file": "wiki\\survival-roadmap.md",
       "summary": "Additional features to fill NOMAD Hyper for survival scenarios: mesh, power, medical, navigation, comms, food, water, security.",
